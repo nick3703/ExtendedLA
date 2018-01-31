@@ -88,7 +88,8 @@ margs.chi<-function(t1,t2,eta,intercept,b2,b3){
     Q.det<-determinant(Q/(2*pi))
     det.d.star<-determinant(d.star/(2*pi))
     d.inv<-solve(d.star) #Only needed if effective number of obs calculation from Rue et. all is required or else can omit
-    output<-list(log.lik=-1/2*t(x.star)%*%Q%*%(x.star)+sum(y*log(exp(x.star+b)+past.effect)-exp(x.star+b)-past.effect-lfactorial(y))-1/2*as.numeric(det.d.star$modulus)+1/2*as.numeric(Q.det$modulus),xi=x.star,sig=d.star,pd=(size*num.obs)-sum(diag(Q.test%*%d.inv)))
+    priors=dnorm(intercept,0,1000,log=T)+dnorm(b2,0,1000,log=T)+dnorm(b3,0,1000,log=T)+dhalfcauchy(sqrt(t1),5,log=T)
+    output<-list(log.lik=-1/2*t(x.star)%*%Q%*%(x.star)+sum(y*log(exp(x.star+b)+past.effect)-exp(x.star+b)-past.effect-lfactorial(y))-1/2*as.numeric(det.d.star$modulus)+1/2*as.numeric(Q.det$modulus)+priors,xi=x.star,sig=d.star,pd=(size*num.obs)-sum(diag(Q.test%*%d.inv)))
     return(output)
   }
   else{
@@ -164,6 +165,8 @@ margs.higher.order.full<-function(t1,t2,eta,intercept,b2,b3){
   sigs<- diag(covs)
   third.term<-c()
   fourth.term<-c()
+  priors<-dnorm(intercept,0,1000,log=T)+dnorm(b2,0,1000,log=T)+dnorm(b3,0,1000,log=T)+dhalfcauchy(sqrt(t1),5,log=T)
+
   #Calculate additional terms needed in higher order Laplace Approximation
   for(o in 1:num.obs){
     h111.h222<-T3.h.term[((o-1)*size+1):(o*size)]%*%t(T3.h.term[((o-1)*size+1):(o*size)]) #Evaluation of all combinations of g_{iii}g_{jjj}
@@ -171,7 +174,7 @@ margs.higher.order.full<-function(t1,t2,eta,intercept,b2,b3){
     third.term[o]<-sum(9/72*covs[((o-1)*size+1):(o*size),((o-1)*size+1):(o*size)]*h11.h22*h111.h222) #Evaluation of 9/72 g^{ii}g^{jj}g^{ij}g_{iii}g_{jjj} from (4.19)
     fourth.term[o]<-sum(6/72*h111.h222*covs[((o-1)*size+1):(o*size),((o-1)*size+1):(o*size)]^3) #Evaluation of 6/72 g^{ij}^3 g_{iii}g_{jjj}
   }
-  output<- list(log.lik=1/2*as.numeric(determinant(Q/(2*pi))$modulus)-1/2*as.numeric(determinant(V.j/(2*pi))$modulus)+sum(l.i(mu))-1/2*t(mu)%*%Q%*%mu+sum(-1/8*T4.v.term*T4.h.term)+sum(third.term)+sum(fourth.term),
+  output<- list(log.lik=1/2*as.numeric(determinant(Q/(2*pi))$modulus)-1/2*as.numeric(determinant(V.j/(2*pi))$modulus)+sum(l.i(mu))-1/2*t(mu)%*%Q%*%mu+sum(-1/8*T4.v.term*T4.h.term)+sum(third.term)+sum(fourth.term)+priors,
                 r1s=sum(sum(-1/8*T4.v.term*T4.h.term)),r2s=sum(third.term),r3s=sum(fourth.term),r4s=sum(sum(-1/48*T6.v.term*T6.h.term)),gii=sigs)
   return(output)
   }else{
