@@ -208,10 +208,12 @@ m<-1
 q<-1
 while(q <10 & (abs(diff)>.005)){
   if(diff>.005){
-    c<-margs.higher.order.full(old)
-    cen=c
-    Hess.est=hessian(func=margs.higher.order.full,x=old,method.args=list(d=.001,r=2))
-    g=grad(func=margs.higher.order.full,x=old,method.args=list(d=.001,r=2))
+    #c<-margs.higher.order.full(old)
+    #cen=c
+    Hess.est2=fdHess(pars=old,fun=margs.higher.order.full)
+    Hess.est=Hess.est2$Hessian
+    g=Hess.est2$gradient
+    cen=Hess.est2$mean
   }
   x.new<-old-1/m*solve(Hess.est)%*%g
   if(x.new[1,1]<0){x.new[1,1]=.1}
@@ -258,9 +260,10 @@ m<-1
 q<-1
 while(q <10 & (abs(diff)>.005)){
   if(diff>.005){
-    cen<-margs.chi(old)
-    Hess.est=hessian(func=margs.chi,x=old,method.args=list(d=.001,r=4))
-    g=grad(func=margs.chi,x=old,method.args=list(d=.001,r=2))
+    Hess.est2=fdHess(pars=old,fun=margs.chi)
+    Hess.est=Hess.est2$Hessian
+    g=Hess.est2$gradient
+    cen=Hess.est2$mean
     }
   x.new<-old-1/m*solve(Hess.est)%*%g
   if(x.new[1,1]<0){x.new[1,1]=.1}
@@ -291,4 +294,3 @@ x.new+1.96*sqrt(diag(-solve(Hess.est)))
 x.new-1.96*sqrt(diag(-solve(Hess.est)))
 
 #Minimal differences in other parameters
-
