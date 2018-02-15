@@ -6,6 +6,7 @@ library(LaplacesDemon)
 library(maptools)
 library(Matrix)
 library(numDeriv)
+library(nlme)
 
 #READ IN DATA################
 
