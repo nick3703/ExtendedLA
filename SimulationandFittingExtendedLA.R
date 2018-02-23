@@ -228,12 +228,17 @@ for(i in 2:(num.obs+1)){
 dat<-y
 #####################INITIAL VALUES FOR NEWTON-RAPHSON BASED ON SAMPLE MOMENTS
 
-cor.mat<-cor((attacks))
+
 cors1<-c()
-for(i in 1:(nrow((attacks))-2)){
-  cors1[i]<-cor.mat[i+1,i+2]
+
+v2=c()
+for(k in 1:size){
+ cors1[k]=acf(attacks[k,],plot=F)[[1]][2]
 }
 
+fish.correct<-fisherz(cors1)
+fish.mean<-mean(fish.correct)
+eta.hat<-fisherz2r(fish.mean)
 fish.correct<-fisherz(cors1)
 fish.mean<-mean(fish.correct)
 eta.hat<-fisherz2r(fish.mean)
