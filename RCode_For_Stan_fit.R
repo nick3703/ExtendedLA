@@ -1,11 +1,10 @@
 
-library(rstan)
+require(rstan)
 
-library(spdep)
-library(INLA)
-library(zoo)
-library(LaplacesDemon)
-library(maptools)
+require(spdep)
+require(zoo)
+require(LaplacesDemon)
+require(maptools)
 
 #READ IN DATA################
 
