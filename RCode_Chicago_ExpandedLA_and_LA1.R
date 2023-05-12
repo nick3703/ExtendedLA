@@ -1,12 +1,11 @@
 #REQUIRED LIBRARIES#############
-library(maptools)
-library(spdep)
-library(zoo)
-library(LaplacesDemon)
-library(maptools)
-library(Matrix)
-library(numDeriv)
-library(nlme)
+require(maptools)
+require(spdep)
+require(zoo)
+require(LaplacesDemon)
+require(Matrix)
+require(numDeriv)
+require(nlme)
 
 #READ IN DATA################
 
