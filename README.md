@@ -1,5 +1,5 @@
 # ExtendedLA
-R Code for Chapter 4
+R Code for "Extended Laplace Approximatin for Self-Exciting Spatio-Temporal Models of Count Data"
 
 SimulationandFittingExtendedLA.R is the R code for simulating from the equations 2-4 of the manuscript "Extended Laplace Approximation for Self-Exciting Spatio-Temporal Models of Count Data" and fitting it using the extended Laplace Approximation technique.  The file also contains moment based estimates for initializing a Newton Raphson algorithm.  The numerical approximation to the Hessian used here is based on finite differences.
 
