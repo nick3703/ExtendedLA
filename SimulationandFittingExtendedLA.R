@@ -1,10 +1,10 @@
 library(spdep)
-library(mvtnorm)
-library(sparseMVN)
-library(psych)
-library(lattice)
-library(spdep)
-library(LaplacesDemon)
+require(mvtnorm)
+require(sparseMVN)
+require(psych)
+require(lattice)
+require(LaplacesDemon)
+require(Matrix)
 
 #Functions
 
